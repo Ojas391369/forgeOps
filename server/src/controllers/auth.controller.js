@@ -29,16 +29,16 @@ const register = async (req, res) => {
         res.status(201).json({
             success: true,
             message: "User registered successfully",
-            data: user,
+            data: userWithoutPassword,
         });
 
     } catch (error) {
-        console.error(error);
 
-        return res.status(500).json({
+        return res.status(400).json({
             success: false,
-            message: "Internal Server Error"
+            message: error.message,
         });
+
     }
 };
 
