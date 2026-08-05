@@ -1,4 +1,7 @@
-const { createProject } = require("../services/project.service");
+const {
+    createProject,
+    getProjects,
+} = require("../services/project.service");
 
 const create = async (req, res) => {
 
@@ -36,6 +39,30 @@ const create = async (req, res) => {
 
 };
 
+const getAll = async (req, res) => {
+
+    try {
+
+        const projects = await getProjects(req.user.userId);
+
+        return res.status(200).json({
+            success: true,
+            message: "Projects fetched successfully.",
+            data: projects,
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+
+};
+
 module.exports = {
     create,
+    getAll,
 };
