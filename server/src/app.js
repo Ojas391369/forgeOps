@@ -10,8 +10,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use((req, res, next) => {
+    console.log("METHOD:", req.method);
+    console.log("URL:", JSON.stringify(req.url));
+    next();
+});
+
 // Routes
 app.use("/health", healthRoutes);
 app.use("/api/auth", authRoutes);
+console.log("App loaded successfully");
 
 module.exports = app;
