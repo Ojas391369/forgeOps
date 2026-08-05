@@ -1,6 +1,7 @@
 const {
     createProject,
     getProjects,
+    getProjectById,
 } = require("../services/project.service");
 
 const create = async (req, res) => {
@@ -62,7 +63,34 @@ const getAll = async (req, res) => {
 
 };
 
+const getOne = async (req, res) => {
+
+    try {
+
+        const project = await getProjectById(
+            req.params.id,
+            req.user.userId
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Project fetched successfully.",
+            data: project,
+        });
+
+    } catch (error) {
+
+        return res.status(404).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+
+};
+
 module.exports = {
     create,
     getAll,
+    getOne,
 };

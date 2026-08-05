@@ -23,7 +23,24 @@ const getProjects = async (ownerId) => {
     return projects;
 };
 
+const getProjectById = async (projectId, ownerId) => {
+
+    const project = await prisma.project.findFirst({
+        where: {
+            id: projectId,
+            ownerId,
+        },
+    });
+
+    if (!project) {
+        throw new Error("Project not found.");
+    }
+
+    return project;
+};
+
 module.exports = {
     createProject,
     getProjects,
+    getProjectById,
 };
