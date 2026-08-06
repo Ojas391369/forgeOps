@@ -8,10 +8,14 @@ const {
     create,
     getAll,
     getOne,
+    update,
+    remove,
 } = require("../controllers/project.controller");
 
 router.post("/", verifyToken, create);
 router.get("/", verifyToken, getAll);
 router.get("/:id", verifyToken, getOne);
-
+router.patch("/:id", verifyToken, update);
+router.delete("/:id", verifyToken, remove);
+    
 module.exports = router;

@@ -2,6 +2,8 @@ const {
     createProject,
     getProjects,
     getProjectById,
+    updateProject,
+    deleteProject,
 } = require("../services/project.service");
 
 const create = async (req, res) => {
@@ -89,8 +91,67 @@ const getOne = async (req, res) => {
 
 };
 
+const update = async (req, res) => {
+
+    try {
+
+        const { name, description } = req.body;
+
+        const project = await updateProject(
+            req.params.id,
+            req.user.userId,
+            {
+                name,
+                description,
+            }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Project updated successfully.",
+            data: project,
+        });
+
+    } catch (error) {
+
+        return res.status(404).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+
+};
+
+const remove = async (req, res) => {
+
+    try {
+
+        await deleteProject(
+            req.params.id,
+            req.user.userId
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Project deleted successfully.",
+        });
+
+    } catch (error) {
+
+        return res.status(404).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+
+};
+
 module.exports = {
     create,
     getAll,
     getOne,
+    update,
+    remove,
 };
