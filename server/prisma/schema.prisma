@@ -17,6 +17,7 @@ model User {
   updatedAt DateTime  @updatedAt
 
   projects  Project[]
+  reportedIssues Issue[]
 }
 
 model Project {
@@ -27,8 +28,29 @@ model Project {
 
   ownerId     String
 
+  issues Issue[]
+
   owner User @relation(fields: [ownerId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Issue {
+  id          String   @id @default(cuid())
+
+  title       String
+  description String?
+
+  status      String   @default("TODO")
+  priority    String   @default("MEDIUM")
+
+  projectId   String
+  reporterId  String
+
+  project      Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  reporter     User    @relation(fields: [reporterId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
